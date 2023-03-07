@@ -11,10 +11,11 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.config.Task;
 
 @Configuration
 @RequiredArgsConstructor
-public class DBJobConfiguration {
+public class JopConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
@@ -26,16 +27,14 @@ public class DBJobConfiguration {
                 .build();
     }
 
-
     @Bean
     public Step step1(){
+
         return stepBuilderFactory.get("step1")
                 .tasklet(new Tasklet() {
                     @Override
                     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-                        System.out.println("=======================");
                         System.out.println(">> step1 was executed");
-                        System.out.println("=======================");
                         return RepeatStatus.FINISHED;
                     }
                 })
@@ -43,16 +42,16 @@ public class DBJobConfiguration {
     }
     @Bean
     public Step step2(){
+
         return stepBuilderFactory.get("step2")
                 .tasklet(new Tasklet() {
                     @Override
                     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-                        System.out.println("=======================");
                         System.out.println(">> step2 was executed");
-                        System.out.println("=======================");
                         return RepeatStatus.FINISHED;
                     }
                 })
                 .build();
     }
+
 }
