@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
-public class JopExecutionConfiguration {
+public class StepConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
@@ -34,26 +34,18 @@ public class JopExecutionConfiguration {
     public Step step1(){
 
         return stepBuilderFactory.get("step1")
-                .tasklet(new Tasklet() {
-                    @Override
-                    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-                        System.out.println(">> step1 was executed");
-                        return RepeatStatus.FINISHED;
-                    }
-                })
+                .tasklet(new CustomTasklet())
                 .build();
     }
     @Bean
     public Step step2(){
 
         return stepBuilderFactory.get("step2")
-                .tasklet(new Tasklet() {
-                    @Override
-                    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
+                .tasklet((StepContribution stepContribution, ChunkContext chunkContext) -> {
                         System.out.println(">> step2 was executed");
 //                        throw new RuntimeException("step2 has failed");
                         return RepeatStatus.FINISHED;
-                    }
+
                 })
                 .build();
     }
