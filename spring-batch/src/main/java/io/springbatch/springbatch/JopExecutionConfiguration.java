@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
-public class JopParameterConfiguration {
+public class JopExecutionConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
@@ -37,16 +37,6 @@ public class JopParameterConfiguration {
                 .tasklet(new Tasklet() {
                     @Override
                     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-                        //stepContribution, chunkContext 둘다 jobParameters를 꺼낼 수  있다.
-                        //jobparameter를 쓸수있는 방식
-                        JobParameters jobParameters = stepContribution.getStepExecution().getJobExecution().getJobParameters();
-                        jobParameters.getString("name");
-                        jobParameters.getLong("seq");
-                        jobParameters.getDate("date");
-                        jobParameters.getDouble("age");
-                        //아래 방식은 맵으로 리턴하는 방식, 실제값만 확인하는 방식
-                        Map<String, Object> chunkContextJobParameters = chunkContext.getStepContext().getJobParameters();
-
                         System.out.println(">> step1 was executed");
                         return RepeatStatus.FINISHED;
                     }
@@ -61,6 +51,7 @@ public class JopParameterConfiguration {
                     @Override
                     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
                         System.out.println(">> step2 was executed");
+//                        throw new RuntimeException("step2 has failed");
                         return RepeatStatus.FINISHED;
                     }
                 })
