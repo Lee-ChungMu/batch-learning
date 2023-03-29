@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 
 @RequiredArgsConstructor
 @Configuration
-public class Validatoronfiguration {
+public class IncrementerConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -28,8 +28,8 @@ public class Validatoronfiguration {
                 .start(step1())
                 .next(step2())
                 .next(step3())
-//                .validator(new CustomJobParameterValidator())
-                .validator(new DefaultJobParametersValidator(new String[]{"name","date"}, new String[]{"count"}))
+                .incrementer(new CustomJobParameterIncrementer())
+                //custom에서 현재 시간으로 지정했기때문에 Job파라미터는 계속해서 바뀌기 때문에 실행에 에러가 발생하지 않음
                 .build();
     }
 
